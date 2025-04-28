@@ -1,12 +1,12 @@
-import * as express from 'express';
-import { Request, Response } from 'express';
+import * as express from "express";
+import { Request, Response } from "express";
 
-import fs from 'fs';
-import IController from "./IController";
+import fs from "fs";
+import IController from "../IController";
 
 export default class StaticTestController implements IController {
-  public name = 'StaticTestController';
-  public path = '/StaticTestController';
+  public name = "StaticTestController";
+  public path = "/StaticTestController";
   public router = express.Router();
 
   constructor() {
@@ -14,7 +14,7 @@ export default class StaticTestController implements IController {
   }
 
   initializeRouters(): void {
-    this.router.use('/test', resolveTestdata('test'));
+    this.router.use("/test", resolveTestdata("test"));
   }
 }
 

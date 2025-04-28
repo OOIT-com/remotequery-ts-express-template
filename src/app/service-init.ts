@@ -1,6 +1,8 @@
 import { RemoteQuery, RqDriver } from "../remotequery-ts";
 import { readSqlFiles } from "../remotequery-ts/util-reading-service-entries";
 import path from "path";
+import { multi } from "./general/multi";
+import { userLogin } from "./general/user-login";
 
 export const serviceInit = async (rq: RemoteQuery) => {
   const driver: RqDriver = rq.getDriver();
@@ -18,4 +20,7 @@ export const serviceInit = async (rq: RemoteQuery) => {
   for (const se of serviceEntries) {
     rq.addServiceEntry(se);
   }
+  rq.addServiceEntry({ serviceId: "MultiService", service: multi });
+  rq.addServiceEntry({ serviceId: "UserLogin", service: userLogin });
+  rq.addServiceEntry({ serviceId: "UserLogin", service: userLogin });
 };

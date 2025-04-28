@@ -1,9 +1,9 @@
 import "dotenv/config";
-import { App } from "./app";
+import { App } from "./app/app";
 import validateEnv from "./utils/validateEnv";
-import IController from "./controller/IController";
-import { ApiController } from "./controller/ApiController";
-import StaticTestController from "./controller/StaticTestController";
+import IController from "./IController";
+import { ApiController } from "./app/ApiController";
+import StaticTestController from "./app/StaticTestController";
 
 validateEnv();
 

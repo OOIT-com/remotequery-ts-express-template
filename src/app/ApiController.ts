@@ -1,14 +1,15 @@
 import * as express from "express";
 import { Request, Response } from "express";
-import IController from "./IController";
+import IController from "../IController";
 import { PRecord, PValue, RqRequest } from "../remotequery-ts";
 import { errorMessage } from "../utils/status-message";
 import { getRq } from "../utils/rq-init";
 import moment from "moment";
+import { getSession } from "./general/user-login";
 
 export class ApiController implements IController {
   public name = "ApiController";
-  public path = "/api";
+  public path = "/remoteQuery";
   public router = express.Router();
 
   constructor() {
@@ -50,7 +51,7 @@ export async function processService(
       result || { status: "error", systemMessage: "Result was empty (null)" }
     );
   } catch (e) {
-    res.json(errorMessage("Serious Error", e));
+    res.json(errorMessage("Serious Error", e as Error));
   }
 }
 
@@ -58,9 +59,20 @@ export function toParameters(req: Request): PRecord {
   const parameters: PRecord = {};
   fillParameters(parameters, req.query as never);
   fillParameters(parameters, req.body as never);
+
+  const session = getSession(parameters.sessionId?.toString() ?? "");
+  if (session) {
+    return {
+      ...parameters,
+      SESSIONID: session.sessionId,
+      USERID: session.userId,
+      USERTID: session.userTid,
+      CURRENT_TIME_MILLIS: moment().valueOf(),
+    };
+  }
+
   return {
     ...parameters,
-    USERID: 1234,
     CURRENT_TIME_MILLIS: moment().valueOf(),
   };
 }

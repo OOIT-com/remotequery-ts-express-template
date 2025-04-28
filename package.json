@@ -51,6 +51,8 @@
     "@types/morgan": "^1.9.9",
     "rotating-file-stream": "^3.0.2",
     "@types/cors": "^2.8.17",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "@types/crypto-js": "^4.2.2",
+    "crypto-js": "^4.1.1"
   }
 }

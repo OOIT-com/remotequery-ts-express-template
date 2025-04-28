@@ -2,7 +2,7 @@
 import { RemoteQuery, RqDriver } from "../remotequery-ts";
 import { PSQLDriver } from "../remotequery-ts/drivers/psql/PSQLDriver";
 import "dotenv/config";
-import { initNEXTVAL } from "../service/db-type/mysql/mysql-init";
+import { initNEXTVAL } from "../app/db-type/mysql/mysql-init";
 
 export const getRq = (): RemoteQuery => rq;
 

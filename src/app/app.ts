@@ -4,9 +4,9 @@ import cors from "cors";
 
 import path from "path";
 import fileUpload from "express-fileupload";
-import { getRq, rqInit } from "./utils/rq-init";
-import IController from "./controller/IController";
-import { serviceInit } from "./service/service-init"; // import errorMiddleware from './middleware/errorMiddleware';
+import { getRq, rqInit } from "../utils/rq-init";
+import IController from "../IController";
+import { serviceInit } from "./service-init"; // import errorMiddleware from './middleware/errorMiddleware';
 
 export class App {
   public app: Application;

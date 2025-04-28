@@ -4,5 +4,5 @@
 --
 
 select nextval('s_global_tid')
-
+;
 

@@ -1,24 +1,11 @@
-//
-// Commands Registration
-//
-
-import { getRq } from "../utils/rq-init";
 import {
   asString,
   isError,
   RqRequest,
   RqResult,
   ServiceFun,
-} from "../remotequery-ts";
-
-export const newTid = async () =>
-  (
-    await getRq().run({
-      serviceId: "newTid",
-      roles: ["SYSTEM"],
-      parameters: {},
-    })
-  ).table?.[0]?.[0] ?? "";
+} from "../../remotequery-ts";
+import { getRq } from "../../utils/rq-init";
 
 export const multi: ServiceFun = async (request): Promise<RqResult> => {
   const results: RqResult[] = [];
