@@ -2,13 +2,12 @@ import * as express from "express";
 import { Request, Response } from "express";
 import IController from "../IController";
 import { PRecord, PValue, RqRequest } from "../remotequery-ts";
-import { errorMessage } from "../utils/status-message";
 import { getRq } from "../utils/rq-init";
 import moment from "moment";
-import { getSession } from "./general/user-login";
+import { getSession } from "./services/user/user-login";
 
-export class ApiController implements IController {
-  public name = "ApiController";
+export class RemoteQueryController implements IController {
+  public name = "RemoteQueryController";
   public path = "/remoteQuery";
   public router = express.Router();
 
@@ -36,22 +35,20 @@ export async function processService(
 ): Promise<void> {
   try {
     if (!serviceId) {
-      res.json({ status: "error", systemMessage: "No service id provided!" });
+      res.json({ exception: "No service id provided!" });
       return;
     }
     const parameters = toParameters(req);
+    const session = getSession(parameters.sessionId?.toString() ?? "");
     const rqRequest: RqRequest = {
       serviceId,
       parameters,
-      userId: "1234",
-      roles: ["SYSTEM"],
+      roles: session ? session.roles : [],
     };
     const result = await getRq().run(rqRequest);
-    res.json(
-      result || { status: "error", systemMessage: "Result was empty (null)" }
-    );
+    res.json(result || { exception: "Result was empty (null)" });
   } catch (e) {
-    res.json(errorMessage("Serious Error", e as Error));
+    res.json({ exception: `Serious Error ${(e as Error).message}}` });
   }
 }
 

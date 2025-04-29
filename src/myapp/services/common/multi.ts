@@ -4,8 +4,8 @@ import {
   RqRequest,
   RqResult,
   ServiceFun,
-} from "../../remotequery-ts";
-import { getRq } from "../../utils/rq-init";
+} from "../../../remotequery-ts";
+import { getRq } from "../../../utils/rq-init";
 
 export const multi: ServiceFun = async (request): Promise<RqResult> => {
   const results: RqResult[] = [];

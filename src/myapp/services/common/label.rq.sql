@@ -1,5 +1,3 @@
-
---
 --
 -- SERVICE_ID = Label.selectAll
 --

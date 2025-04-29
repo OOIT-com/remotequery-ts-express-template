@@ -51,17 +51,31 @@ where user_id = :userId;
 --
 
 insert into t_user_account (user_tid, user_id, mobile_number, pwhash)
-values (nextval('s_global_tid'),
-        lower(:user_id),
+values (nextval('global_tid'),
+        lower(:userId),
         :mobileNumber,
-        :pwhash)
+        '1234')
+returning user_tid, user_id, mobile_number
 ;
+
+
+
+--
+-- SERVICE_ID = UserAccount.update
+--
+
+update t_user_account
+set mobile_number = :mobileNumber
+where user_tid = :userTid
+;
+
+
 
 --
 -- SERVICE_ID = UserAccount.select
+-- ROLES = ADMIN
 --
 
-select
+select user_tid, user_id, mobile_number
 from t_user_account
-where user_id like '%'
-;
+order by user_id;

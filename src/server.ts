@@ -1,21 +1,21 @@
 import "dotenv/config";
-import { App } from "./app/app";
+import { Myapp } from "./myapp/myapp";
 import validateEnv from "./utils/validateEnv";
 import IController from "./IController";
-import { ApiController } from "./app/ApiController";
-import StaticTestController from "./app/StaticTestController";
+import { RemoteQueryController } from "./myapp/RemoteQueryController";
+import StaticTestController from "./myapp/StaticTestController";
 
 validateEnv();
 
 const controllers: IController[] = [
-  new ApiController(),
+  new RemoteQueryController(),
   new StaticTestController(),
 ];
 
 const startup = async () => {
-  const app = new App(controllers);
-  await app.init();
-  app.listen();
+  const myapp = new Myapp(controllers);
+  await myapp.init();
+  myapp.listen();
 };
 
-startup();
+startup().catch(console.error);

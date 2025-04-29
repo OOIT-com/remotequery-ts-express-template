@@ -4,8 +4,8 @@ import {
   RqResult,
   ServiceFun,
   toList,
-} from "../../remotequery-ts";
-import { getRq } from "../../utils/rq-init";
+} from "../../../remotequery-ts";
+import { getRq } from "../../../utils/rq-init";
 import { SYSTEM } from "../constants";
 import sha256 from "crypto-js/sha256";
 import Hex from "crypto-js/enc-hex";
@@ -13,6 +13,7 @@ import Hex from "crypto-js/enc-hex";
 type Session = {
   userId: string;
   userTid: number;
+  roles: string[];
   sessionId: string;
   time: number;
 };
@@ -35,12 +36,21 @@ const logIn = async (userId: string, pwhash: PValue): Promise<RqResult> => {
   });
   const list = toList(result);
   if (list.length === 1) {
-    const sessionId = generatePassword(32);
+    const userTid = +(list[0].userTid || "-1");
+    const sessionId = generateRandom(32);
+    const roles = (
+      await getRq().run({
+        serviceId: "UserRole.select",
+        roles: [SYSTEM],
+        parameters: { userTid },
+      })
+    ).table?.map((e) => e[0]) as string[];
     const session: Session = {
       userId,
       time: Date.now(),
       sessionId,
-      userTid: +(list[0].userTid || "-1"),
+      userTid,
+      roles,
     };
     sessions[sessionId] = session;
 
@@ -68,7 +78,7 @@ export const userLogin: ServiceFun = async ({
       return logIn(uid, pwhash);
     }
     case "newPasswordByMail": {
-      const newPassword = generatePassword(10);
+      const newPassword = generateRandom(10);
       console.debug(`new password for ${userId}) ${newPassword}`);
       const pwhash = sha256(newPassword).toString(Hex);
       const { rowsAffected, exception } = await getRq().run({
@@ -104,7 +114,7 @@ export const userLogin: ServiceFun = async ({
   return { exception: "Not yet implemented" };
 };
 
-function generatePassword(length: number): string {
+function generateRandom(length: number): string {
   const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let password = "";

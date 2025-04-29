@@ -1,17 +1,3 @@
-create database ts_template_db;
-
-create sequence s_global_tid start with 1000;
-;
-create table t_person
-(
-    person_tid bigint,
-    first_name varchar(256),
-    last_name  varchar(256),
-    age        integer,
-    primary key (person_tid)
-)
-;
-
 create table t_code_table
 (
     table_name varchar(128) not null,
@@ -30,7 +16,6 @@ create table t_user_account
     primary key (user_tid)
 )
 ;
-
 create table t_user_role
 (
     user_tid  bigint,

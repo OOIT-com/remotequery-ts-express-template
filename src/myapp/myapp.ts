@@ -8,7 +8,7 @@ import { getRq, rqInit } from "../utils/rq-init";
 import IController from "../IController";
 import { serviceInit } from "./service-init"; // import errorMiddleware from './middleware/errorMiddleware';
 
-export class App {
+export class Myapp {
   public app: Application;
   private readonly controllers: IController[];
 
